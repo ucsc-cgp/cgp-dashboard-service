@@ -16,7 +16,8 @@
     "center_name": "submitter|institution",
     "fileFormat": "file_format",
     "computationalMethod": "computational_method",
-    "fileSize": "fileSize"
+    "bundleType": "bundle_type",
+    "fileSize": "file_size"
   },
   "facets": [
   	"cellHandling",
@@ -33,6 +34,7 @@
   	"isLiving",
   	"cellCycle",
   	"fileFormat",
-  	"computationalMethod"
+  	"computationalMethod",
+    "bundleType"
   ]
 }
