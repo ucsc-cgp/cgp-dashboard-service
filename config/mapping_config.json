@@ -1,68 +1,93 @@
 {
-  "access": "access",
+  "access": null,
   "analysisMethod": {
-    "analysisType": "analysis_type",
-    "software": "software"
+    "analysisType": null,
+    "software": null
   },
-  "center_name": "center_name",
+  "computationalMethod": "computational_method",
+  "seq": {
+    "instrumentPlatform": "seq|instrument_platform",
+    "libraryConstruction": "seq|library_construction",
+    "pairedEnds": "seq|paired_ends"
+  },
+  "rna": {
+    "libraryConstruction": "rna|library_construction",
+    "spikeIn": "rna|spike_in"
+  },
+  "singleCell": {
+    "cellHandling": "single_cell|cell_handling"
+  },
+  "center_name": "submitter|institution",
+  "submitterInstitution": "submitter|institution",
+  "submitterName": "submitter|name",
+  "submitterCountry": "submitter|country",
   "dataCategorization": {
-    "dataType": "file_type",
-    "experimentalStrategy": "experimentalStrategy"
+    "dataType": null,
+    "experimentalStrategy": null
   },
   "donors": [
     {
-      "donorId": "donor",
+      "donorId": null,
+      "living": "donor|is_living",
+      "speciesOntology": "donor|species|ontology",
+      "speciesText": "donor|species|text",
+      "cultureType": "culture_type",
+      "cellCycle": "cell_cycle|text",
       "otherIdentifiers": {
         "RedwoodDonorUUID": [
-          "redwoodDonorUUID"
+         null
         ]
       },
-      "primarySite": "submitterDonorPrimarySite",
-      "projectCode": "project",
+      "bodyPart": "body_part|text",
+      "organ": "organ|text",
+      "primarySite": null,
+      "projectCode": "project_id",
       "sampleId": [
-        "sampleId"
+        null
       ],
+      "sampleName": "name",
       "specimenType": [
-        "specimen_type"
+        null
       ],
-      "study": "study",
-      "submittedDonorId": "submittedDonorId",
+      "study": null,
+      "submittedDonorId": null,
       "submittedSampleId": [
-        "submittedSampleId"
+        null
       ],
       "submittedSpecimenId": [
-        "submittedSpecimenId"
+        null
       ]
     }
   ],
   "fileCopies": [
     {
-      "fileFormat": "file_type",
-      "fileMd5sum": "fileMd5sum",
-      "fileName": "title",
-      "fileSize": "fileSize",
-      "lastModified": "lastModified",
-      "repoBaseUrl": "repoBaseUrl",
-      "repoCode": "repoCode",
-      "repoCountry": "repoCountry",
-      "repoDataBundleId": "repoDataBundleId",
+      "fileFormat": "file_format",
+      "fileMd5sum": null,
+      "fileName": "file_name",
+      "fileSize": null,
+      "fileVersion": "file_version",
+      "lastModified": null,
+      "repoBaseUrl": null,
+      "repoCode": null,
+      "repoCountry": null,
+      "repoDataBundleId": "bundle_uuid",
       "repoDataPath": null,
       "repoDataSetIds": [null],
       "repoMetadataPath": null,
-      "repoName": "repoName",
-      "repoOrg": "repoOrg",
-      "repoType": "repoType"
+      "repoName": null,
+      "repoOrg": null,
+      "repoType": null
     }
   ],
-  "id": "file_id",
-  "objectID": "file_id",
-  "program": "program",
+  "id": "file_uuid",
+  "objectID": null,
+  "program": null,
   "referenceGenome": {
     "downloadUrl": null,
     "genomeBuild": null,
     "referenceName": null
   },
   "study": [
-    "study"
+    null
   ]
 }
