@@ -4,7 +4,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q, A
 import json
 import os
-from responseobjects.api_response import KeywordSearchResponse, FileSearchResponse, SummaryResponse, ManifestResponse
+from responseobjects.hca_response import KeywordSearchResponse, FileSearchResponse, SummaryResponse, ManifestResponse
 
 
 class ElasticTransformDump(object):

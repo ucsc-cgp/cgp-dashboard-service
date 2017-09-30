@@ -17,7 +17,15 @@
     "fileFormat": "file_format",
     "computationalMethod": "computational_method",
     "bundleType": "bundle_type",
-    "fileSize": "file_size"
+    "fileSize": "file_size",
+    "Project ID": "project_id",
+    "Institution": "submitter|institution",
+    "Country": "submitter|country",
+    "Bundle Type": "bundle_type",
+    "Donor Species": "donor|species|text",
+    "File UUID": "file_uuid",
+    "File Name": "file_name",
+    "File Format": "file_format"
   },
   "manifest": [
     "Project ID",
