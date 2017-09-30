@@ -158,7 +158,7 @@ class ManifestResponse(AbstractResponse):
     def return_response(self):
         return self.apiResponse
 
-    def __init__(self, raw_response, mapping, manifest_entries):
+    def __init__(self, raw_response, manifest_entries, mapping):
         """
         The constructor takes the raw response from ElasticSearch and creates a tsv file based on
         the columns from the manifest_entries
@@ -211,7 +211,7 @@ class SummaryResponse(AbstractResponse):
         # Create a SummaryRepresentation object
         self.apiResponse = SummaryRepresentation(
             fileCount=hits['total'],
-            donorCount=self.agg_contents(aggregates, 'donor'),
+            donorCount=self.agg_contents(aggregates, 'donor', agg_form='value'),
             projectCount=self.agg_contents(aggregates, 'projectCode'),
             totalFileSize=self.agg_contents(aggregates, 'total_size', agg_form='value'),
             primarySiteCount=self.agg_contents(aggregates, 'submitterDonorPrimarySite')
