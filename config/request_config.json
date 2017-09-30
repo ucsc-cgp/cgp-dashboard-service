@@ -18,6 +18,7 @@
     "computationalMethod": "computational_method",
     "bundleType": "bundle_type",
     "fileSize": "file_size",
+    "donorId": "donor|core|uuid",
     "Project ID": "project_id",
     "Institution": "submitter|institution",
     "Country": "submitter|country",
