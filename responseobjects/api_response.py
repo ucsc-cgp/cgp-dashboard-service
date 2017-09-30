@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import abc
+from flask_excel import make_response_from_array
 from jsonobject import *
 
 
@@ -148,6 +149,31 @@ class AbstractResponse(object):
     @abc.abstractmethod
     def return_response(self):
         raise NotImplementedError('users must define return_response to use this base class')
+
+
+class ManifestResponse(AbstractResponse):
+    """
+    Class for the Manifest response. Based on the AbstractionResponse class
+    """
+    def return_response(self):
+        return self.apiResponse
+
+    def __init__(self, raw_response, mapping, manifest_entries):
+        """
+        The constructor takes the raw response from ElasticSearch and creates a tsv file based on
+        the columns from the manifest_entries
+        :param raw_response: The raw response from ElasticSearch
+        :param mapping: The mapping between the columns to values within ElasticSearch
+        :param manifest_entries: The columns that will be present in the tsv
+        """
+        # Get a list of the hits in the raw response
+        hits = [x['_source'] for x in raw_response['hits']['hits']]
+        # Create the body of the entries in the manifest
+        mapped_manifest = [[entry[mapping[column]] if entry[mapping[column]] is not None else ''
+                            for column in manifest_entries] for entry in hits]
+        # Prepend the header as the first entry on the manifest
+        mapped_manifest.insert(0, [column for column in manifest_entries])
+        self.apiResponse = make_response_from_array(mapped_manifest, 'tsv', file_name='manifest')
 
 
 class SummaryResponse(AbstractResponse):
