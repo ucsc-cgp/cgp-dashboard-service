@@ -27,7 +27,7 @@
   },
   "donors": [
     {
-      "donorId": "donor|core|uuid",
+      "donorId": "donor_id",
       "living": "donor|is_living",
       "speciesOntology": "donor|species|ontology",
       "speciesText": "donor|species|text",
