@@ -6,11 +6,11 @@ import random
 
 
 def main():
-    """Use a JSONL input file containing donor information, copy the
-    first two lines. The first line contains the index, and the 
-    second line contains meta data. 
-    Create a copy of the two lines N times, where N is a number 
-    > 9,999, and write into a new file.
+    """Use a template JSONL input file containing donor information,
+    copy the first two lines. The first line contains the index, 
+    and the second line contains meta data. 
+    Create _n_ copies of those two lines, where _n_ is a random 
+    number of 9,999 < 1,000,001, and write into a new file.
     MK, 2017-11-14"""
 
     # print(uuid.uuid4())
@@ -23,9 +23,9 @@ def main():
     parsed2 = json.loads(data_in.pop())  # load string method
     parsed1 = json.loads(data_in.pop())
 
-    data_out = []
+
     n = 3  # random.randint(9999, 1000001)
-    create_jsonl(data_out, parsed1, parsed2, n)
+    data_out = create_jsonl(parsed1, parsed2, n)
 
     # Change values in JSON file:
     # (parsed1, parsed2) = put_newvals(parsed1, parsed2)
@@ -37,8 +37,9 @@ def main():
     print json.dumps(data_out, indent=4, sort_keys=True)
 
 
-def create_jsonl(data_out, parsed1, parsed2, n):
+def create_jsonl(parsed1, parsed2, n):
     """ """
+    data_out = []
     # Change values in JSON file:
     (parsed1, parsed2) = put_newvals(parsed1, parsed2)
     i = 0
