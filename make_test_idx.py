@@ -22,7 +22,6 @@ def main():
     parsed2 = json.loads(data_in.pop())  # load string method
     parsed1 = json.loads(data_in.pop())
 
-
     n = random.randint(9999, 12001)
     data_out = create_jsonl(parsed1, parsed2, n)
 
