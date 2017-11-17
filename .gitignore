@@ -94,3 +94,6 @@ ENV/
 validated.jsonl
 .*.swp
 .*.swo
+
+# files I don't want to sync (MK)
+fb_index_large.jsonl
