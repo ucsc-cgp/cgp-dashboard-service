@@ -13,7 +13,6 @@ def main():
     number of 9,999 < 1,000,001, and write into a new file.
     MK, 2017-11-14"""
 
-    # print(uuid.uuid4())
     fname = './test/fb_index.jsonl'
 
     data_in = []  # declare list
@@ -24,28 +23,25 @@ def main():
     parsed1 = json.loads(data_in.pop())
 
 
-    n = 3  # random.randint(9999, 1000001)
+    n = random.randint(9999, 12001)
     data_out = create_jsonl(parsed1, parsed2, n)
 
-    # Change values in JSON file:
-    # (parsed1, parsed2) = put_newvals(parsed1, parsed2)
-
-    # Some form of pretty-print:
-    # print json.dumps(parsed1, indent=4, sort_keys=True)
-    # print json.dumps(parsed2, indent=4, sort_keys=True)
-
     print json.dumps(data_out, indent=4, sort_keys=True)
+
+    with open('fb_index_large.jsonl', 'w') as outfile:
+        json.dump(data_out, outfile)
 
 
 def create_jsonl(parsed1, parsed2, n):
     """ """
     data_out = []
+    parsed1['index']['_id'] = 0  # to initiate count to zero
     # Change values in JSON file:
     (parsed1, parsed2) = put_newvals(parsed1, parsed2)
     i = 0
     assert isinstance(n, object)
     while i < n:
-        # New ID:
+        # Set new ID:
         parsed1['index']['_id'] += 1
 
         # Set new UUIDs:
@@ -72,7 +68,8 @@ def put_newvals(parsed1, parsed2):
 
 
 def read_jsonl(data, fname):
-    """Read first two lines into list data and return it."""
+    """Read first two lines of a JSON file named
+    fname into a list, data, and return it."""
     with open(fname, 'r') as f:
         data.append(''.join(f.readline()))
         data.append(''.join(f.readline()))
