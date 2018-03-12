@@ -275,6 +275,38 @@ class ManifestResponse(AbstractResponse):
             mapped_manifest, 'tsv', file_name='manifest')
 
 
+
+class XenaManifestResponse(AbstractResponse):
+    """
+    Class for the Manifest response. Based on the AbstractionResponse class
+    """
+    def return_response(self):
+        return self.apiResponse
+
+    def __init__(self, raw_response, manifest_entries, mapping):
+        """
+        The constructor takes the raw response from ElasticSearch and
+        creates a tsv file based on the columns from the manifest_entries
+        :param raw_response: The raw response from ElasticSearch
+        :param mapping: The mapping between the columns to values within
+        ElasticSearch
+        :param manifest_entries: The columns that will be present in the tsv
+        """
+        # Setup the logger
+        self.logger = logging.getLogger(
+            'dashboardService.api_response.XenaManifestResponse')
+        # Get a list of the hits in the raw response
+        hits = [x['_source'] for x in raw_response['hits']['hits']]
+        # Create the body of the entries in the manifest
+        mapped_manifest = [[entry[mapping[column]]
+                            if entry[mapping[column]] is not None else ''
+                            for column in manifest_entries] for entry in hits]
+        # Prepend the header as the first entry on the manifest
+        mapped_manifest.insert(0, [column for column in manifest_entries])
+        self.logger.info('Creating response from array')
+        self.apiResponse = make_response_from_array(
+            mapped_manifest, 'tsv', file_name='manifest')
+
 class SummaryResponse(AbstractResponse):
     """
     Class for the summary response. Based on the AbstractResponse class

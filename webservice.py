@@ -320,3 +320,38 @@ def get_manifest():
     # Return the excel file
     return response
 
+@webservicebp.route('/repository/files/Xenaexport', methods=['GET'])
+def get_Xena_manifest():
+    """
+    Creates and returns a manifest based on the filters pased on
+    to this endpoint
+    parameters:
+        - name: filters
+          in: query
+          type: string
+          description: Filters to be applied when generating the manifest
+    :return: A manifest that the user can use to download the files in there
+    """
+    # Setup logging
+    logger = logging.getLogger("dashboardService.webservice.get_Xenamanifest")
+    filters = request.args.get('filters', '{"file": {}}')
+    logger.debug("Filters string is: {}".format(filters))
+    try:
+        logger.info("Extracting the filter parameter from the request")
+	print("Xhecking Console")
+        filters = ast.literal_eval(filters)
+        filters = {"file": {}} if filters == {} else filters
+    except Exception, e:
+        logger.error("Malformed filters parameter: {}".format(e.message))
+        return "Malformed filters parameter"
+    # Create and instance of the ElasticTransformDump
+    logger.info("Creating ElasticTransformDump object")
+    es_td = EsTd(es_domain=os.getenv("ES_DOMAIN", "elasticsearch1"),
+                 es_port=os.getenv("ES_PORT", 9200),
+                 es_protocol=os.getenv("ES_PROTOCOL", "http"))
+    # Get the response back
+    logger.info("Creating the API response")
+    response = es_td.xena_transform_manifest(filters=filters)
+    # Return the excel file
+    return response
+
