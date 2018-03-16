@@ -298,14 +298,16 @@ class XenaManifestResponse(AbstractResponse):
         # Get a list of the hits in the raw response
         hits = [x['_source'] for x in raw_response['hits']['hits']]
         # Create the body of the entries in the manifest
-        mapped_manifest = [[entry[mapping[column]]
+        mapped_manifest = [entry[mapping[column]]
                             if entry[mapping[column]] is not None else ''
-                            for column in manifest_entries] for entry in hits]
+                            for column in manifest_entries for entry in hits]
         # Prepend the header as the first entry on the manifest
-        mapped_manifest.insert(0, [column for column in manifest_entries])
+        #mapped_manifest.insert(0, [column for column in manifest_entries])
         self.logger.info('Creating response from array')
-        self.apiResponse = make_response_from_array(
-            mapped_manifest, 'tsv', file_name='manifest')
+	self.logger.info('Mapped manifest{}'.format(mapped_manifest))
+        #self.apiResponse = make_response_from_array(
+        #    mapped_manifest, 'tsv', file_name='manifest')
+	self.apiResponse = mapped_manifest 
 
 class SummaryResponse(AbstractResponse):
     """

@@ -514,12 +514,17 @@ class ElasticTransformDump(object):
         # Transform to a raw dictionary
         es_response_dict = es_response.to_dict()
         # Get the XenaManifestResponse object
-        self.logger.info('Creating ManifestResponse object')
+        self.logger.info('Creating XenaManifestResponse object')
         manifest = XenaManifestResponse(
             es_response_dict,
             request_config['manifest'],
             request_config['translation'])
-        return manifest.return_response()
+	cohort = request_config['cohort']
+	# need to implement for multiple cohorts
+        ret_val = {}
+	ret_val["samples"] = manifest.return_response()
+	ret_val["cohort"] = cohort
+	return ret_val
 
     def transform_autocomplete_request(
             self,

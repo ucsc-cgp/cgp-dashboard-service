@@ -77,9 +77,10 @@
     }
   },
   "manifest": [
-    "Project",
     "Submitter Specimen ID"
   ],
+  "cohort": "TCGA TARGET GTEx",
+
   "facets": [
     "centerName",
     "workFlow",

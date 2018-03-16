@@ -1,6 +1,7 @@
 import ast
 import config
 from flask import jsonify, request, Blueprint
+from flask_cors import cross_origin
 import logging.config
 import os
 from responseobjects.elastic_request_builder import \
@@ -320,7 +321,7 @@ def get_manifest():
     # Return the excel file
     return response
 
-@webservicebp.route('/repository/files/Xenaexport', methods=['GET'])
+@webservicebp.route('/repository/files/xenaexport', methods=['GET'])
 def get_Xena_manifest():
     """
     Creates and returns a manifest based on the filters pased on
@@ -353,5 +354,5 @@ def get_Xena_manifest():
     logger.info("Creating the API response")
     response = es_td.xena_transform_manifest(filters=filters)
     # Return the excel file
-    return response
+    return jsonify(response)
 
