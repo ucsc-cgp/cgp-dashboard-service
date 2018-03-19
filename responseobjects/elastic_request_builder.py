@@ -521,8 +521,8 @@ class ElasticTransformDump(object):
             request_config['manifest'],
             request_config['translation'])
 	cohort = request_config['cohort']
-	# need to implement for multiple cohorts
-        ret_val = {}
+	# TODO: need to implement code to work for multiple XENA cohorts
+        ret_val = {}#set return value to dictionary with 2 keys
 	ret_val["samples"] = manifest.return_response()
 	ret_val["cohort"] = cohort
 	return ret_val
