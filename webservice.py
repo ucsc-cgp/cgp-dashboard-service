@@ -321,7 +321,7 @@ def get_manifest():
     # Return the excel file
     return response
 
-@webservicebp.route('/repository/files/xenaexport', methods=['GET'])
+@webservicebp.route('/repository/files/xenaexport', methods=['GET','OPTIONS'])
 def get_Xena_manifest():
     """
     Creates and returns a manifest based on the filters pased on
@@ -339,7 +339,6 @@ def get_Xena_manifest():
     logger.debug("Filters string is: {}".format(filters))
     try:
         logger.info("Extracting the filter parameter from the request")
-	print("Xhecking Console")
         filters = ast.literal_eval(filters)
         filters = {"file": {}} if filters == {} else filters
     except Exception, e:

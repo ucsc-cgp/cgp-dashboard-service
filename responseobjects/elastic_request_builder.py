@@ -496,6 +496,7 @@ class ElasticTransformDump(object):
             'Getting the request_config file: {}'.format(request_config_path))
         request_config = self.open_and_return_json(request_config_path)
         # Handle empty filters
+	self.logger.debug('Filters are: {}'.format(filters))
         if filters is None:
             filters = {"file": {}}
         # Create an ElasticSearch request
