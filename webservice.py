@@ -3,9 +3,10 @@ import config
 from flask import jsonify, request, Blueprint
 import logging.config
 import os
-from responseobjects.elastic_request_builder import \
-    ElasticTransformDump as EsTd
+from responseobjects.elastic_request_builder import BadArgumentException, ElasticTransformDump as EsTd
 from responseobjects.utilities import json_pp
+
+ENTRIES_PER_PAGE = 10
 
 # Setting up logging
 base_path = os.path.dirname(os.path.abspath(__file__))
@@ -54,23 +55,36 @@ def get_data(file_id=None):
     logger = logging.getLogger("dashboardService.webservice.get_data")
     # Get all the parameters from the URL
     logger.debug('Parameter file_id: {}'.format(file_id))
-    filters = request.args.get('filters', '{"file": {}}')
+    filters = request.args.get('filters', '{}')
     logger.debug("Filters string is: {}".format(filters))
     try:
         logger.info("Extracting the filter parameter from the request")
         filters = ast.literal_eval(filters)
-        filters = {"file": {}} if filters == {} else filters
     except Exception, e:
         logger.error("Malformed filters parameter: {}".format(e.message))
         return "Malformed filters parameter"
     # Make the default pagination
     logger.info("Creating pagination")
     pagination = {
-        "from": request.args.get('from', 1, type=int),
         "order": request.args.get('order', 'desc'),
-        "size": request.args.get('size', 5, type=int),
-        "sort":    request.args.get('sort', 'es_uuid'),
+        "size": request.args.get('size', ENTRIES_PER_PAGE, type=int),
+        "sort": request.args.get('sort', 'entity_id'),
     }
+
+    sa = request.args.getlist('search_after')
+    sb = request.args.getlist('search_before')
+    if not sa and not sb:
+        logger.debug("Using from sorting")
+        pagination['from'] = request.args.get('from', 1, type=int)
+    elif not sb:
+        logger.debug("Using search after sorting, with value "+str(sa))
+        pagination['search_after'] = sa
+    elif not sa:
+        logger.debug("Using search before sorting, with value "+str(sb))
+        pagination['search_before'] = sb
+    else:
+        logger.error("Bad arguments, only one of search_after or search_before can be set")
+        return "Bad arguments, only one of search_after or search_before can be set"
     logger.debug("Pagination: \n".format(json_pp(pagination)))
     # Handle <file_id> request form
     if file_id is not None:
@@ -83,9 +97,12 @@ def get_data(file_id=None):
                  es_protocol=os.getenv("ES_PROTOCOL", "http"))
     # Get the response back
     logger.info("Creating the API response")
-    response = es_td.transform_request(filters=filters,
-                                       pagination=pagination,
-                                       post_filter=True)
+    try:
+        response = es_td.transform_request(filters=filters, pagination=pagination, post_filter=True)
+    except BadArgumentException as bae:
+        response = jsonify(dict(error=bae.message))
+        response.status_code = 400
+        return response
     # Returning a single response if <file_id> request form is used
     if file_id is not None:
         response = response['hits'][0]
@@ -136,11 +153,25 @@ def get_data_pie():
     # Make the default pagination
     logger.info("Creating pagination")
     pagination = {
-        "from": request.args.get('from', 1, type=int),
         "order": request.args.get('order', 'desc'),
-        "size": request.args.get('size', 5, type=int),
-        "sort":    request.args.get('sort', 'center_name'),
+        "size": request.args.get('size', ENTRIES_PER_PAGE, type=int),
+        "sort": request.args.get('sort', 'entity_id'),
     }
+
+    sa = request.args.getlist('search_after')
+    sb = request.args.getlist('search_before')
+    if not sa and not sb:
+        logger.debug("Using from sorting")
+        pagination['from'] = request.args.get('from', 1, type=int)
+    elif not sb:
+        logger.debug("Using search after sorting, with value " + str(sa))
+        pagination['search_after'] = sa
+    elif not sa:
+        logger.debug("Using search before sorting, with value " + str(sb))
+        pagination['search_before'] = sb
+    else:
+        logger.error("Bad arguments, only one of search_after or search_before can be set")
+        return "Bad arguments, only one of search_after or search_before can be set"
     logger.debug("Pagination: \n".format(json_pp(pagination)))
     # Create and instance of the ElasticTransformDump
     logger.info("Creating ElasticTransformDump object")
