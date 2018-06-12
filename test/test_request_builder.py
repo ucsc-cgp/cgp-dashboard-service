@@ -5,7 +5,7 @@ import difflib
 import logging.config
 import os
 import unittest
-from responseobjects.elastic_request_builder import ElasticTransformDump\
+from chalicelib.responseobjects.elastic_request_builder import ElasticTransformDump\
     as EsTd
 
 # Setup the base path
@@ -15,7 +15,7 @@ es_domain = os.getenv('ES_SERVICE', 'localhost')
 es_port = os.getenv('ES_PORT', '9200')
 es_protocol = os.getenv('ES_PROTOCOL', 'http')
 # Setup logging
-logging.config.fileConfig('{}/../config/logging.conf'.format(base_path))
+logging.config.fileConfig('{}/../chalicelib/config/logging.conf'.format(base_path))
 logger = logging.getLogger("dashboardService")
 
 
@@ -61,7 +61,7 @@ class MyTestCase(unittest.TestCase):
         # print "Printing actual output: \n %s" % actual_output
         # Now show differences so message is helpful
 
-        print "Comparing the two dictionaries built."
+        print("Comparing the two dictionaries built.")
         print('{}... => {}...'.format(
             actual_output[:20],
             expected_output[:20]))
@@ -107,7 +107,7 @@ class MyTestCase(unittest.TestCase):
         # print "Printing expected output: \n %s" % expected_output
         # print "Printing actual output: \n %s" % actual_output
         # Now show differences so message is helpful
-        print "Comparing the two dictionaries built."
+        print("Comparing the two dictionaries built.")
         print('{}... => {}...'.format(
             actual_output[:20], expected_output[:20]))
         for i, s in enumerate(
@@ -162,7 +162,7 @@ class MyTestCase(unittest.TestCase):
         # print "Printing expected output: \n %s" % expected_output
         # print "Printing actual output: \n %s" % actual_output
         # Now show differences so message is helpful
-        print "Comparing the two dictionaries built."
+        print("Comparing the two dictionaries built.")
         print('{}... => {}...'.format(actual_output[:20], expected_output[:20]))
         for i, s in enumerate(
                 difflib.ndiff(actual_output, expected_output)):
