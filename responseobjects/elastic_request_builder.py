@@ -232,7 +232,7 @@ class ElasticTransformDump(object):
         # Extract the fields for readability (and slight manipulation)
         _from = pagination['from'] - 1
         _to = pagination['size'] + _from
-        _sort = '{}.keyword'.format(pagination['sort'])
+        _sort = pagination['sort'] if pagination['sort'] == '_score' else '{}.keyword'.format(pagination['sort'])
         _order = pagination['order']
         # Apply order
         es_search = es_search.sort({_sort: {"order": _order}})
