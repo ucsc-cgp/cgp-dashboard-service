@@ -205,7 +205,7 @@ class ElasticTransformDump(object):
         es_search = es_search.post_filter(es_filter_query)
         # Apply a prefix query with the query string
         es_search = es_search.query(
-            Q('prefix', **{'{}__raw'.format(search_field): _query}))
+            Q('prefix', **{'{}__keyword'.format(search_field): _query}))
         return es_search
 
     @staticmethod
@@ -536,7 +536,7 @@ class ElasticTransformDump(object):
             index=index)
         # Handle pagination
         self.logger.info("Handling pagination")
-        pagination['sort'] = '_score'
+        # pagination['sort'] = '_score'
         pagination['order'] = 'desc'
         es_search = self.apply_paging(es_search, pagination)
         # Executing ElasticSearch request
