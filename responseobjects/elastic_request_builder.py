@@ -536,7 +536,7 @@ class ElasticTransformDump(object):
             index=index)
         # Handle pagination
         self.logger.info("Handling pagination")
-        # pagination['sort'] = '_score'
+        pagination['sort'] = '_score'
         pagination['order'] = 'desc'
         es_search = self.apply_paging(es_search, pagination)
         # Executing ElasticSearch request
